@@ -1,0 +1,34 @@
+---
+- name: Get user list
+  uri:
+    url: "https://{{ awx_hostname }}/api/v2/users"
+    user: "{{ awx_user }}"
+    password: "{{ awx_pass }}"
+    force_basic_auth: yes
+    validate_certs: no
+    return_content: yes
+  register: userlist
+  ignore_errors: yes
+  check_mode: no
+
+- name: Get user activity steam
+  uri:
+    url: "https://{{ awx_hostname }}/api/v2/users/{{ item.id }}/activity_stream/"
+    user: "{{ awx_user }}"
+    password: "{{ awx_pass }}"
+    force_basic_auth: yes
+    validate_certs: no
+    return_content: yes
+  register: user_activity
+  ignore_errors: yes
+  check_mode: no
+  with_items: "{{ userlist.json.results }}"
+
+- name: Load data into database
+  uri:
+    url: '{{ influxdb_ip_address }}/write?db={{ influxdb_database_name }}'
+    method: POST
+    body: "user_perf,user={{ item.item.username }} value={{ item.json.count }}"
+    status_code: 204
+  with_items: "{{ user_activity.results }}"
+

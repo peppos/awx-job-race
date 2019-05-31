@@ -1,0 +1,10 @@
+- name: User stasts
+  hosts: all
+  vars_files:
+    - inventories/awx_jobs_stats/all_vars.yml
+    - inventories/awx_jobs_stats/all_vault.yml
+  roles:
+    - awx_job_stats
+  tags:
+    - stats
+

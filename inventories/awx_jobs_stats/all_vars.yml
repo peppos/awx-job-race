@@ -1,0 +1,3 @@
+influxdb_ip_address: "http://<INFLUXDB_HOSTNAME>:8086"
+influxdb_database_name: "awx_job_race"
+awx_hostname: "<AWX_HOSTNAME>"
