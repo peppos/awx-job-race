@@ -1,6 +1,6 @@
 # awx-job-race
 
-This ansible role get the amount of jobs launched by all users in AWX and put this data in a influxdb.
+This ansible role get the amount of jobs launched by all users in AWX and put this data in an influxdb.
 Is possible to use a grafana for print a dashboard like this
 ![grafana](grafana_example.png)
 
